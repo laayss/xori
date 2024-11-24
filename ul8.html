@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A short quiz por u</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #ffe4e1;
+      color: #555;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff69b4;
+      font-size: 2.5em;
+    }
+    .quiz-container {
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 15px;
+      background: #fff0f5;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    button:hover {
+      background-color: #ff1493;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .popup h2 {
+      color: #ff69b4;
+    }
+    .popup button {
+      background-color: #ff69b4;
+      margin-top: 10px;
+    }
+    .feedback {
+      font-size: 1.2em;
+      color: #ff69b4;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>kwez por u 💕</h1>
+  <div class="quiz-container">
+    <div id="question-container"></div>
+    <p id="feedback" class="feedback"></p>
+    <button id="next-button" onclick="checkAnswer()">Submit</button>
+    <button id="popup-button" onclick="showPopup()" style="display: none;">See My Letter 📝</button>
+  </div>
+  <div class="popup" id="popup">
+    <h2>To Shiian 💌</h2>
+    <p>Hi bb,
+
+      I hope you enjoy the quiz I made for you—it’s just for fun, but I also wanted to take this chance to say something important.
+      
+      I’m really sorry for my behavior sometimes, especially when I come across as judgmental. Nung sinabi mo na ayaw mo ipakita sakin notebook mo that time because you were worried I might judge you, pero pinakita mo naman kay Dani, it hurt me a lot. That moment really made me think about how I’ve acted—whether it’s in the past or recently—and I realized na I’ve been judgmental at times, especially about spelling, solving, or even small things(gaya ng sinabi mo)
+      
+      That’s not what I want to be. I don’t want you—or anyone else—to feel that way around me. I never mean to judge, but I see now how it might come across, and for that,,, sorry talaga. I’ll do my best to be more mindful and cautious of how I act or speak kac I really don’t want to hurt anyone, especially you.
+      
+      Thank you for being patient with me, bb. I love you so much.</p>
+    <button onclick="closePopup()">Close</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "When was our first kiss? 😘",
+        choices: ["August 15, 2023", "September 3, 2023", "April 28, 2024", "November 11, 2023"],
+        answer: "April 28, 2024",
+      },
+      {
+        question: "What was the first thing I said to you when we became official? 🥺",
+        choices: ["I love you so much.", "Ayoq, Ayoq tumanggi.", "Ang cute mo talaga!", "Pengi kiss? Haha!"],
+        answer: "Ayoq, Ayoq tumanggi.",
+      },
+      {
+        question: "When did we take our first photobooth together? 📸",
+        choices: ["November 5, 2023", "November 11, 2023", "October 31, 2023", "December 1, 2023"],
+        answer: "November 11, 2023",
+      },
+      {
+        question: "What’s my favorite thing about you? 🌸",
+        choices: ["Your smile.", "Your weirdness.", "Your lips.", "Everything."],
+        answer: "Everything.",
+      },
+      {
+        question: "What’s the most memorable date we’ve had so far? 🎡",
+        choices: ["Here sa bahay.", "Cine date.", "IBT date.", "That time we got ice cream."],
+        answer: "Here sa bahay.",
+      },
+    ];
+
+    let currentQuestionIndex = 0;
+
+    function loadQuestion() {
+      const questionData = questions[currentQuestionIndex];
+      const container = document.getElementById("question-container");
+      container.innerHTML = `
+        <div class="question">
+          <h3>${questionData.question}</h3>
+          ${questionData.choices
+            .map(
+              (choice) =>
+                `<label><input type="radio" name="choice" value="${choice}"> ${choice}</label><br>`
+            )
+            .join("")}
+        </div>
+      `;
+      document.getElementById("feedback").innerText = "";
+    }
+
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="choice"]:checked');
+      if (!selected) {
+        document.getElementById("feedback").innerText = "Please select an answer! 🧐";
+        return;
+      }
+
+      const chosenAnswer = selected.value;
+      const correctAnswer = questions[currentQuestionIndex].answer;
+
+      if (chosenAnswer === correctAnswer) {
+        document.getElementById("feedback").innerText = "yEyYyY tama loveu, bebi 💖";
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          setTimeout(loadQuestion, 1000); // Wait 1 second before showing the next question
+        } else {
+          document.getElementById("next-button").style.display = "none";
+          document.getElementById("popup-button").style.display = "block";
+          document.getElementById("question-container").innerHTML = `<h3>Yay! You finished the quiz! 🎉</h3>`;
+        }
+      } else {
+        document.getElementById("feedback").innerText = "Bakit d mo alam 'to?,,, grgrgg 😠";
+      }
+    }
+
+    function showPopup() {
+      document.getElementById("popup").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
